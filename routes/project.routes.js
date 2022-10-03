@@ -24,6 +24,7 @@ router.post('/projects', (req, res, next) => {
 router.get('/projects', (req, res, next) => {
   
   Project.find()
+    .populate('tasks')
     .then(foundProjectArray => {
       console.log(foundProjectArray);
       res.json({ message: 'GET projects worked', projects: foundProjectArray });
@@ -37,6 +38,7 @@ router.get('/projects/:projectId', (req, res, next) => {
   const { projectId } = req.params;
 
   Project.findById(projectId)
+    .populate('tasks')
     .then(foundProject => {
       res.json({ message: 'GET projects/:projectId worked ' + projectId, project: foundProject });
     })
