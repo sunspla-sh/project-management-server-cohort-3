@@ -33,18 +33,39 @@ router.get('/projects', (req, res, next) => {
 });
 
 router.get('/projects/:projectId', (req, res, next) => {
+
   const { projectId } = req.params;
-  res.json({ message: 'GET projects/:projectId worked ' + projectId });
+
+  Project.findById(projectId)
+    .then(foundProject => {
+      res.json({ message: 'GET projects/:projectId worked ' + projectId, project: foundProject });
+    })
+    .catch(err => res.json(err));
+  
 });
 
 router.put('/projects/:projectId', (req, res, next) => {
   const { projectId } = req.params;
-  res.json({ message: 'PUT projects/:projectId worked ' + projectId });
+
+  Project.findByIdAndUpdate(projectId, req.body, { new: true })
+    .then(updatedProject => {
+      console.log(updatedProject);
+      res.json({ message: 'PUT projects/:projectId worked ' + projectId, project: updatedProject });
+    })
+    .catch(err => res.json(err));
+
+  
 });
 
 router.delete('/projects/:projectId', (req, res, next) => {
   const { projectId } = req.params;
-  res.json({ message: 'DELETE projects/:projectId worked ' + projectId });
+  Project.findByIdAndDelete(projectId)
+    .then(deletedProject => {
+      console.log(deletedProject);
+      res.json({ message: 'DELETE projects/:projectId worked ' + projectId, project: deletedProject });
+    })
+    .catch(err => res.json(err));
+  
 });
 
 module.exports = router;
