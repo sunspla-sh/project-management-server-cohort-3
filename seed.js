@@ -2,6 +2,7 @@ const mongoose = require('mongoose');
 
 const Project = require('./models/Project.model');
 const Task = require('./models/Task.model');
+const User = require('./models/User.model');
 
 mongoose.connect('mongodb://localhost:27017/projectManagmentCohort3')
   .then(connectObject => {
@@ -29,6 +30,14 @@ mongoose.connect('mongodb://localhost:27017/projectManagmentCohort3')
   })
   .then(createdTask => {
     console.log(createdTask);
+
+    return User.create({
+      username: 'Adam',
+      password: 'password'
+    });
+  })
+  .then(createdUser => {
+    console.log(createdUser);
 
     return mongoose.connection.close()
   })
