@@ -2,6 +2,7 @@ const express = require('express');
 const router = express.Router();
 
 const Project = require('../models/Project.model');
+const Task = require('../models/Task.model');
 
 router.post('/projects', (req, res, next) => {
 
@@ -63,7 +64,7 @@ router.delete('/projects/:projectId', (req, res, next) => {
   const { projectId } = req.params;
   Project.findByIdAndDelete(projectId)
     .then(deletedProject => {
-      console.log(deletedProject);
+      Task.deleteMany({ project: projectId }).then(() => {})
       res.json({ message: 'DELETE projects/:projectId worked ' + projectId, project: deletedProject });
     })
     .catch(err => res.json(err));
